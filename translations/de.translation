@@ -49,7 +49,6 @@
                     <name>Address</name>
                 </fields>
                 <fields>
-                    <fieldText>Betrag, den Sie zahlen möchten</fieldText>
                     <name>Amount_you_would_like_to_pay</name>
                     <validationRule />
                 </fields>
@@ -57,19 +56,15 @@
                     <name>CVV</name>
                 </fields>
                 <fields>
-                    <fieldText>Ablaufjahr der Karte</fieldText>
                     <name>Card_Expiration_Year</name>
                 </fields>
                 <fields>
-                    <fieldText>Ablaufmonat der Karte</fieldText>
                     <name>Card_Expiration_month</name>
                 </fields>
                 <fields>
-                    <fieldText>Kartenhalter</fieldText>
                     <name>Card_Holder</name>
                 </fields>
                 <fields>
-                    <fieldText>Kartennummer</fieldText>
                     <name>Card_Number</name>
                     <validationRule />
                 </fields>
