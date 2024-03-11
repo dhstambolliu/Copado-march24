@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customLabels>
+        <label>Der Betrag darf nicht höher sein als der ausstehende Betrag</label>
+        <name>Amount</name>
+    </customLabels>
+    <customLabels>
+        <label>Es gibt keinen ausstehenden Betrag und es muss nichts bezahlt werden. Klicken Sie auf die Schaltfläche, um zurückzugehen!</label>
+        <name>No_Amount</name>
+    </customLabels>
+    <customLabels>
+        <label>Restbetrag</label>
+        <name>Outstanding_Amount</name>
+    </customLabels>
+    <customLabels>
+        <label>Es ist nur der Typ VISA zulässig</label>
+        <name>Payment_Type</name>
+    </customLabels>
+    <flowDefinitions>
+        <flows>
+            <screens>
+                <fields>
+                    <name>DisplayMessage</name>
+                </fields>
+                <name>AmoutIsEmpty</name>
+            </screens>
+            <screens>
+                <fields>
+                    <inputParameters>
+                        <name>city</name>
+                        <value />
+                    </inputParameters>
+                    <inputParameters>
+                        <name>country</name>
+                        <value />
+                    </inputParameters>
+                    <inputParameters>
+                        <name>postalCode</name>
+                        <value />
+                    </inputParameters>
+                    <inputParameters>
+                        <name>province</name>
+                        <value />
+                    </inputParameters>
+                    <inputParameters>
+                        <name>street</name>
+                        <value />
+                    </inputParameters>
+                    <name>Address</name>
+                </fields>
+                <fields>
+                    <name>Amount_you_would_like_to_pay</name>
+                    <validationRule />
+                </fields>
+                <fields>
+                    <name>CVV</name>
+                </fields>
+                <fields>
+                    <name>Card_Expiration_Year</name>
+                </fields>
+                <fields>
+                    <name>Card_Expiration_month</name>
+                </fields>
+                <fields>
+                    <name>Card_Holder</name>
+                </fields>
+                <fields>
+                    <name>Card_Number</name>
+                    <validationRule />
+                </fields>
+                <fields>
+                    <name>Outstanding_Amount_Section1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value />
+                    </inputParameters>
+                    <name>Outstanding_Amount_Section1_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value />
+                    </inputParameters>
+                    <name>Outstanding_Amount_Section1_Column2</name>
+                </fields>
+                <fields>
+                    <name>Outstanding_Amount_Section2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value />
+                    </inputParameters>
+                    <name>Outstanding_Amount_Section2_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value />
+                    </inputParameters>
+                    <name>Outstanding_Amount_Section2_Column2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value />
+                    </inputParameters>
+                    <name>Outstanding_Amount_Section2_Column3</name>
+                </fields>
+                <fields>
+                    <name>Outstanding_Payments</name>
+                </fields>
+                <name>Outstanding_Amount</name>
+            </screens>
+        </flows>
+        <fullName>Payment_Processor</fullName>
+    </flowDefinitions>
+</Translations>
