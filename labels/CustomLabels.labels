@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Amount</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Amount</shortDescription>
+        <value>Amount can&apos;t be more than the outstanding amount:</value>
+    </labels>
+    <labels>
+        <fullName>No_Amount</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No Amount</shortDescription>
+        <value>There is no outstanding amount and there&apos;s nothing to be paid. Click the button to go back!</value>
+    </labels>
+    <labels>
+        <fullName>Outstanding_Amount</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Outstanding Amount</shortDescription>
+        <value>Outstanding Amount</value>
+    </labels>
+    <labels>
+        <fullName>Payment_Type</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Payment Type</shortDescription>
+        <value>Only VISA type is allowed</value>
+    </labels>
+</CustomLabels>
