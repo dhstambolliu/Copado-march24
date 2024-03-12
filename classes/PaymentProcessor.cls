@@ -1,4 +1,5 @@
 public class PaymentProcessor {
+    
     public class PaymentInput {
         @InvocableVariable(label='Contact Id')
         public Id contactId;
@@ -14,54 +15,76 @@ public class PaymentProcessor {
         public String cvv;
         @InvocableVariable(label='Amount')
         public Decimal amount;
+        @InvocableVariable(label='MailingStreet')
+        public String mailingStreet;
+        @InvocableVariable(label='MailingPostalCode')
+        public String mailingPostalCode;
+        @InvocableVariable(label='MailingCity')
+        public String mailingCity;
+        @InvocableVariable(label='MailingCountry')
+        public String mailingCountry;
+        @InvocableVariable(label='MailingState')
+        public String mailingState;
     }
-
+    
     @InvocableMethod(label='Process Payment')
     public static void processPayment(List<PaymentInput> paymentInputs) {
-        List<Decimal> results = new List<Decimal>();
         Set<Id> contactIds = new Set<Id>();
         Map<Id, Decimal> contactIdToPaymentAmount = new Map<Id, Decimal>();
+        Map<Id, PaymentInput> contactIdToPaymentInput = new Map<Id, PaymentInput>();
         
-        // Collect unique Contact Ids from input
         for (PaymentInput paymentInput : paymentInputs) {
             contactIds.add(paymentInput.contactId);
+            contactIdToPaymentAmount.put(paymentInput.contactId, 0); // Initialize payment amount map
+            contactIdToPaymentInput.put(paymentInput.contactId, paymentInput); // Store payment input for later use
         }
         
-        // Query Contact records outside the loop
-        Map<Id, Contact> contactsMap = new Map<Id, Contact>([SELECT Id, Payment_Amount__c FROM Contact WHERE Id IN :contactIds]);
+        Map<Id, Contact> contactsMap = new Map<Id, Contact>([SELECT Id, Payment_Amount__c, MailingStreet, MailingPostalCode, MailingCity, MailingCountry, MailingState 
+                                                             FROM Contact WHERE Id IN :contactIds]);
         
-        // Update Payment Amount based on input data
+        VisaPaymentProcessor visaProcessor = new VisaPaymentProcessor(); // Instantiate once
+        
         for (PaymentInput paymentInput : paymentInputs) {
-            // Access input parameters from paymentInput object
             Id contactId = paymentInput.contactId;
             Decimal amount = paymentInput.amount;
-
-            // Process the payment (dummy implementation for now)
-            // For demonstration purposes, just return the payment amount
-            results.add(amount);
-
-            // Update the Payment Amount in the map
+            
             if (contactsMap.containsKey(contactId)) {
                 Decimal existingPaymentAmount = contactsMap.get(contactId).Payment_Amount__c != null ?
-                                                contactsMap.get(contactId).Payment_Amount__c : 0;
-                contactIdToPaymentAmount.put(contactId, existingPaymentAmount - amount);
+                    contactsMap.get(contactId).Payment_Amount__c : 0;
+                
+                // Call pay method and store the result
+                Decimal paymentResult = visaProcessor.pay(paymentInput.contactId, paymentInput.amount, 'VISA');
+                contactIdToPaymentAmount.put(contactId, existingPaymentAmount - paymentResult);
             }
-
-            // Instantiate VisaPaymentProcessor and call its pay method
-            VisaPaymentProcessor visaProcessor = new VisaPaymentProcessor();
-            Decimal paymentResult = visaProcessor.pay(paymentInput.contactId, paymentInput.amount, 'VISA');
         }
         
-        // Update Contact records
         List<Contact> contactsToUpdate = new List<Contact>();
         for (Id contactId : contactIdToPaymentAmount.keySet()) {
             Contact contact = contactsMap.get(contactId);
             contact.Payment_Amount__c = contactIdToPaymentAmount.get(contactId);
+            
+            // Update mailing address fields if not null in PaymentInput
+            PaymentInput paymentInput = contactIdToPaymentInput.get(contactId);
+            if (paymentInput != null) {
+                if (paymentInput.mailingStreet != contactsMap.get(contactId).MailingStreet) {
+                    contact.MailingStreet = paymentInput.mailingStreet;
+                }
+                if (paymentInput.mailingPostalCode != contactsMap.get(contactId).MailingPostalCode) {
+                    contact.MailingPostalCode = paymentInput.mailingPostalCode;
+                }
+                if (paymentInput.mailingCity != contactsMap.get(contactId).MailingCity) {
+                    contact.MailingCity = paymentInput.mailingCity;
+                }
+                if (paymentInput.mailingCountry != contactsMap.get(contactId).MailingCountry) {
+                    contact.MailingCountry = paymentInput.mailingCountry;
+                }
+                if (paymentInput.mailingState != contactsMap.get(contactId).MailingState) {
+                    contact.MailingState = paymentInput.mailingState;
+                }
+            }
+            
             contactsToUpdate.add(contact);
         }
         update contactsToUpdate;
-
-        // Output the results (optional, for further processing)
-        System.debug('Payment processing results: ' + results);
     }
 }

@@ -8,6 +8,34 @@
         <value>Amount can&apos;t be more than the outstanding amount:</value>
     </labels>
     <labels>
+        <fullName>CVV_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CVV Validation</shortDescription>
+        <value>Number must be between 3 or 4 characters</value>
+    </labels>
+    <labels>
+        <fullName>Card_Expiration_Month_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Card Expiration Month Validation</shortDescription>
+        <value>Enter a number between 1 and 12</value>
+    </labels>
+    <labels>
+        <fullName>Expired_Card</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Expired Card</shortDescription>
+        <value>Your card is expired</value>
+    </labels>
+    <labels>
+        <fullName>Invalid_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Invalid Name</shortDescription>
+        <value>Invalid name given</value>
+    </labels>
+    <labels>
         <fullName>No_Amount</fullName>
         <language>en_US</language>
         <protected>false</protected>
