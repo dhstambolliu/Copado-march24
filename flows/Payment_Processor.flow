@@ -50,6 +50,36 @@
                 <elementReference>Card_Expiration_Year</elementReference>
             </value>
         </inputParameters>
+        <inputParameters>
+            <name>mailingCity</name>
+            <value>
+                <elementReference>Address.city</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mailingCountry</name>
+            <value>
+                <elementReference>Address.country</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mailingPostalCode</name>
+            <value>
+                <elementReference>Address.postalCode</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mailingState</name>
+            <value>
+                <elementReference>Address.province</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mailingStreet</name>
+            <value>
+                <elementReference>Address.street</elementReference>
+            </value>
+        </inputParameters>
         <nameSegment>PaymentProcessor</nameSegment>
         <versionSegment>1</versionSegment>
     </actionCalls>
@@ -93,9 +123,41 @@
         <expression>{!Get_Contact.Payment_Amount__c} &gt;= {!Amount_you_would_like_to_pay}</expression>
     </formulas>
     <formulas>
+        <name>cardExpirationYearValidation</name>
+        <dataType>Boolean</dataType>
+        <expression>OR(
+    AND(
+    {!Card_Expiration_Year} &gt; YEAR(TODAY()),
+    LEN(TEXT({!Card_Expiration_Year})) = 4),
+    AND(
+        {!Card_Expiration_month} &gt;= MONTH(TODAY()),
+        {!Card_Expiration_Year} = YEAR(TODAY()),
+        LEN(TEXT({!Card_Expiration_Year})) = 4
+    )
+)</expression>
+    </formulas>
+    <formulas>
         <name>cardNumberRegex</name>
         <dataType>Boolean</dataType>
         <expression>REGEX({!Card_Number}, &apos;^4[0-9]{12}(?:[0-9]{3})?$&apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>CVVValidation</name>
+        <dataType>Boolean</dataType>
+        <expression>OR(
+        LEN(TEXT({!CVV})) = 3,
+        LEN(TEXT({!CVV})) = 4
+    )</expression>
+    </formulas>
+    <formulas>
+        <name>monthValidation</name>
+        <dataType>Boolean</dataType>
+        <expression>{!Card_Expiration_month} &gt;= 1 &amp;&amp; {!Card_Expiration_month} &lt;= 12</expression>
+    </formulas>
+    <formulas>
+        <name>nameRegex</name>
+        <dataType>Boolean</dataType>
+        <expression>REGEX({!Card_Holder}, &apos;^[a-zA-Z]+ [a-zA-Z]+$&apos;)</expression>
     </formulas>
     <formulas>
         <name>ourstandingPayment</name>
@@ -187,7 +249,7 @@
             <isRequired>true</isRequired>
             <scale>2</scale>
             <validationRule>
-                <errorMessage>&lt;p&gt;{!$Label.Amount}&lt;/p&gt;</errorMessage>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;{!$Label.Amount} &lt;/span&gt;&lt;span style=&quot;color: rgb(255, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;{!ourstandingPayment}&lt;/span&gt;&lt;/p&gt;</errorMessage>
                 <formulaExpression>{!amountValidation}</formulaExpression>
             </validationRule>
         </fields>
@@ -227,6 +289,10 @@
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;{!$Label.Invalid_Name}&lt;/p&gt;</errorMessage>
+                        <formulaExpression>{!nameRegex}</formulaExpression>
+                    </validationRule>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -260,6 +326,10 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <scale>0</scale>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;{!$Label.Card_Expiration_Month_Validation}&lt;/p&gt;</errorMessage>
+                        <formulaExpression>{!monthValidation}</formulaExpression>
+                    </validationRule>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -287,6 +357,10 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <scale>0</scale>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;{!$Label.Expired_Card}&lt;/p&gt;</errorMessage>
+                        <formulaExpression>{!cardExpirationYearValidation}</formulaExpression>
+                    </validationRule>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -314,6 +388,10 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <scale>0</scale>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;{!$Label.CVV_Validation}&lt;/p&gt;</errorMessage>
+                        <formulaExpression>{!CVVValidation}</formulaExpression>
+                    </validationRule>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
