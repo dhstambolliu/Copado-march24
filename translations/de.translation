@@ -39,6 +39,7 @@
                     <name>DisplayMessage</name>
                 </fields>
                 <name>AmoutIsEmpty</name>
+                <nextOrFinishButtonLabel>Ausfahrt</nextOrFinishButtonLabel>
             </screens>
             <screens>
                 <fields>
@@ -65,6 +66,7 @@
                     <name>Address</name>
                 </fields>
                 <fields>
+                    <fieldText>Betrag, den Sie zahlen möchten</fieldText>
                     <name>Amount_you_would_like_to_pay</name>
                     <validationRule />
                 </fields>
@@ -73,18 +75,22 @@
                     <validationRule />
                 </fields>
                 <fields>
+                    <fieldText>Ablaufjahr der Karte</fieldText>
                     <name>Card_Expiration_Year</name>
                     <validationRule />
                 </fields>
                 <fields>
+                    <fieldText>Ablaufmonat der Karte</fieldText>
                     <name>Card_Expiration_month</name>
                     <validationRule />
                 </fields>
                 <fields>
+                    <fieldText>Kartenhalter</fieldText>
                     <name>Card_Holder</name>
                     <validationRule />
                 </fields>
                 <fields>
+                    <fieldText>Kartennummer</fieldText>
                     <name>Card_Number</name>
                     <validationRule />
                 </fields>
@@ -133,6 +139,7 @@
                     <name>Outstanding_Payments</name>
                 </fields>
                 <name>Outstanding_Amount</name>
+                <nextOrFinishButtonLabel>Einreichen</nextOrFinishButtonLabel>
             </screens>
         </flows>
         <fullName>Payment_Processor</fullName>
